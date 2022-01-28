@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import { createCustomError } from '../../utils/helpers'
 
 export const trackController = {
   trackData: (req: Request, res: Response, next: NextFunction) => {
@@ -8,7 +9,7 @@ export const trackController = {
         msg: 'Ok!'
       })
     } catch (error) {
-      next(error)
+      next(createCustomError(error, 1000))
     }
   }
 }
