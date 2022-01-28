@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 
 import apiRoutes from './routes/api.routes'
+import exceptionHandler from './middlewares/exceptionHandler'
 export default class Server {
   private app: express.Application
 
@@ -10,11 +11,12 @@ export default class Server {
     this.app.use(cors())
     this.app.use(express.json())
     this.initRoutes()
+    this.app.use(exceptionHandler.internal)
   }
 
   private initRoutes () {
     this.app.use('/api', apiRoutes)
-    // this.app.use('*', exceptionHandler.notFound)
+    this.app.use('*', exceptionHandler.notFound)
   }
 
   start () {
