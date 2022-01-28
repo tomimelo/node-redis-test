@@ -5,7 +5,9 @@
   "main": "build/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node ."
+    "start": "tsc && node .",
+    "lint": "eslint **/*.ts",
+    "lint:fix": "eslint **/*.ts --fix"
   },
   "keywords": [],
   "author": "",
