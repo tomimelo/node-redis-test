@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import countController from '../controllers/count.controller'
+import CountController from '../controllers/count.controller'
 
 const router = Router()
 
-router.get('/', countController.getCount)
+router.get('/', CountController.getCount)
 
 export default router

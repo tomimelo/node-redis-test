@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { createCustomError } from '../../utils/helpers'
 import FileService from '../services/file.service'
 
-export const trackController = {
+export const TrackController = {
   trackData: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body
@@ -19,4 +19,4 @@ export const trackController = {
   }
 }
 
-export default trackController
+export default TrackController

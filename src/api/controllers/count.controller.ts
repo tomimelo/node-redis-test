@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { createCustomError } from '../../utils/helpers'
 
-export const countController = {
+export const CountController = {
   getCount: (req: Request, res: Response, next: NextFunction) => {
     try {
       res.json({
@@ -14,4 +14,4 @@ export const countController = {
   }
 }
 
-export default countController
+export default CountController

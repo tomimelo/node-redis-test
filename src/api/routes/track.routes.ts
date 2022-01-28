@@ -1,8 +1,8 @@
 import { Router } from 'express'
-import trackController from '../controllers/track.controller'
+import TrackController from '../controllers/track.controller'
 
 const router = Router()
 
-router.post('/', trackController.trackData)
+router.post('/', TrackController.trackData)
 
 export default router
