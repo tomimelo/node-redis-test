@@ -1,10 +1,10 @@
-import Server from "./api/server"
+import Server from './api/server'
 
 (async () => {
   try {
     const port = process.env.PORT || 3000
 
-    console.log("Starting server...")
+    console.log('Starting server...')
 
     const server = new Server(port)
     server.start()

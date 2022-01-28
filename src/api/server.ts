@@ -11,12 +11,12 @@ export default class Server {
     this.initRoutes()
   }
 
-  private initRoutes() {
+  private initRoutes () {
     // this.app.use('/api', apiRoutes)
     // this.app.use('*', exceptionHandler.notFound)
   }
 
-  start() {
+  start () {
     this.app.listen(this.port, () => {
       console.log(`Server is running on port ${this.port}`)
     })
