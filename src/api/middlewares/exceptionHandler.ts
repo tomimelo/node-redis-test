@@ -2,12 +2,13 @@ import { NextFunction, Request, Response } from 'express'
 
 export const exceptionHandler = {
   notFound: (req: Request, res: Response, next: NextFunction) => {
-    console.log(`ERROR: ${req.baseUrl} not found`)
+    const errorMessage = `${req.method} ${req.baseUrl} not found`
+    console.log(`ERROR: ${errorMessage}`)
     res.status(404).json({
       ok: false,
       error: {
         status: 404,
-        message: `${req.baseUrl} not found`
+        message: errorMessage
       }
     })
   },
