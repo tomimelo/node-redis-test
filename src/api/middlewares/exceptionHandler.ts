@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 
-export default {
+export const exceptionHandler = {
   notFound: (req: Request, res: Response, next: NextFunction) => {
     console.log(`ERROR: ${req.baseUrl} not found`)
     res.status(404).json({
@@ -25,3 +25,5 @@ export default {
     })
   }
 }
+
+export default exceptionHandler
