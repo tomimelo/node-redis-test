@@ -3,6 +3,9 @@ import cors from 'cors'
 
 import apiRoutes from './routes/api.routes'
 import exceptionHandler from './middlewares/exceptionHandler'
+import { createClient } from 'redis'
+
+export const redisClient = createClient()
 export default class Server {
   private app: express.Application
 
@@ -19,9 +22,13 @@ export default class Server {
     this.app.use('*', exceptionHandler.notFound)
   }
 
-  start () {
-    this.app.listen(this.port, () => {
-      console.log(`Server is running on port ${this.port}`)
+  async start () {
+    await redisClient.connect()
+    return new Promise<void>((resolve, reject) => {
+      this.app.listen(this.port, () => {
+        console.log(`Server is running on port ${this.port}`)
+        resolve()
+      })
     })
   }
 }
