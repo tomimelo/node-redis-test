@@ -7,7 +7,7 @@ import Server from './api/server'
     console.log('Starting server...')
 
     const server = new Server(port)
-    server.start()
+    await server.start()
   } catch (error) {
     console.log(error)
     process.exit(1)
