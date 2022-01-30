@@ -90,6 +90,19 @@ describe('API routes', () => {
       }, Promise.resolve([]))
     })
 
+    test('Should save count data if count key exists', async () => {
+      await redisClient.set('count', 0)
+
+      const expectedCount = 5
+      const body = { name: 'test', value: 'test', count: expectedCount }
+
+      const response = await api.post('/api/track').send(body).expect(200)
+      expect(response.body.msg).toBe('Data tracked successfully')
+
+      const countResponse = await api.get('/api/count').expect(200)
+      expect(countResponse.body.count).toBe(expectedCount)
+    })
+
     afterAll(async () => {
       await fs.unlink(TEST_FILE_PATH).catch(() => {})
     })
