@@ -1,5 +1,9 @@
 import supertest from 'supertest'
 import Server, { redisClient } from '../../../src/api/server'
+import path from 'path'
+import { promises as fs } from 'fs'
+
+import FileService from '../../../src/api/services/file.service'
 
 const server = new Server(3000)
 const api = supertest(server.getApp())
@@ -37,6 +41,57 @@ describe('API routes', () => {
       await redisClient.del('count')
       const response = await api.get('/api/count').expect(200)
       expect(response.body.count).toBe(0)
+    })
+  })
+
+  describe('Track route', () => {
+    const TEST_FILE_PATH = path.join(__dirname, '../../../data/data_test.json')
+
+    beforeAll(async () => {
+      jest.spyOn(FileService, 'getFilePath').mockReturnValue(TEST_FILE_PATH)
+    })
+
+    beforeEach(async () => {
+      await fs.unlink(TEST_FILE_PATH).catch(() => {})
+    })
+
+    test("Should create data file if it doesn't exist", async () => {
+      await api.post('/api/track').send({}).expect(200)
+      const fileExists = await FileService.fileExists()
+      expect(fileExists).toBe(true)
+      await fs.unlink(TEST_FILE_PATH)
+    })
+
+    test('Should save data in data file', async () => {
+      const body = { name: 'test', value: 'test' }
+      const response = await api.post('/api/track').send(body).expect(200)
+      expect(response.body.msg).toBe('Data tracked successfully')
+      const fileData = await fs.readFile(TEST_FILE_PATH, 'utf8')
+      const expectedData = JSON.stringify([body])
+      expect(fileData).toBe(expectedData)
+    })
+
+    test('Should append data in data file', async () => {
+      const testData = [
+        { name: 'test', value: 'test' },
+        { name: 'test2', value: 'test2' },
+        { name: 'test3', value: 'test3' }
+      ]
+
+      await testData.reduce(async (acc: any, data) => {
+        const actualBody = await acc
+        const response = await api.post('/api/track').send(data).expect(200)
+        expect(response.body.msg).toBe('Data tracked successfully')
+        const fileData = await fs.readFile(TEST_FILE_PATH, 'utf8')
+        actualBody.push(data)
+        const expectedData = JSON.stringify(actualBody)
+        expect(fileData).toBe(expectedData)
+        return actualBody
+      }, Promise.resolve([]))
+    })
+
+    afterAll(async () => {
+      await fs.unlink(TEST_FILE_PATH).catch(() => {})
     })
   })
 })
