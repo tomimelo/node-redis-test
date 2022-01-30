@@ -22,6 +22,10 @@ export default class Server {
     this.app.use('*', exceptionHandler.notFound)
   }
 
+  getApp () {
+    return this.app
+  }
+
   async start () {
     await redisClient.connect()
     return new Promise<void>((resolve, reject) => {
