@@ -2,9 +2,10 @@
   "name": "node-redis-test",
   "version": "1.0.0",
   "description": "",
-  "main": "build/app.js",
+  "main": "build/src/app.js",
   "scripts": {
-    "start": "tsc && node .",
+    "start": "npm run build && node .",
+    "build": "tsc",
     "lint": "eslint **/*.ts",
     "lint:fix": "eslint **/*.ts --fix",
     "test": "jest",
