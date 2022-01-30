@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from 'express'
 import { createCustomError } from '../../utils/helpers'
+import RedisService from '../services/redis.service'
 
 export const CountController = {
-  getCount: (req: Request, res: Response, next: NextFunction) => {
+  getCount: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const count = await RedisService.getCount()
       res.json({
         ok: true,
-        msg: 'Ok!'
+        count
       })
     } catch (error) {
       next(createCustomError(error, 2000))
